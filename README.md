@@ -4,11 +4,24 @@ Atividade do Módulo 15 de Continuação Back-End Python da EBAC.
 
 Implementei uma API de livraria com ViewSets baseados nos serializers de categorias, produtos e pedidos. As rotas são geradas pelo `DefaultRouter`, e os testes verificam as operações da API, as validações e os relacionamentos entre os modelos.
 
+## Continuidade do projeto
+
+Esta entrega continua o Bookstore dos módulos 13 e 14:
+
+- [Módulo 13 — configuração do Django REST Framework com Poetry](https://github.com/mtgbcma-dotcom/bookstore/pull/1).
+- [Módulo 14 — modelos, serializers e testes](https://github.com/mtgbcma-dotcom/m57-bookstore/pull/1).
+- Módulo 15 — ViewSets, rotas e testes da API adicionados à mesma base.
+
+Os arquivos `api/models.py`, `api/serializers.py` e `api/migrations/0001_initial.py` são idênticos aos da entrega do módulo 14. Os 25 testes de serializers foram preservados em `api/tests/test_serializers.py`, com ajuste apenas dos imports relativos para a organização em pacote.
+
+`pyproject.toml` e `poetry.lock` foram recuperados integralmente do módulo 14. O nome `m57-bookstore` no manifesto foi mantido para preservar a identificação do projeto anterior. O Poetry é a forma principal de instalar e executar o projeto. Veja os commits e a comparação dos arquivos em [Continuidade e validação](docs/CONTINUIDADE.md).
+
 ## Tecnologias
 
 - Python
 - Django
 - Django REST Framework
+- Poetry
 - SQLite
 
 ## Funcionalidades
@@ -25,15 +38,17 @@ Implementei uma API de livraria com ViewSets baseados nos serializers de categor
 
 ## Executar no Windows
 
-Com Python 3.10 ou mais recente instalado, abra a pasta que contém `manage.py` e execute no terminal:
+Com Python 3.10 ou mais recente e Poetry 2.5.1 instalado, abra a pasta que contém `manage.py`, `pyproject.toml` e `poetry.lock` e execute no terminal:
 
 ```powershell
-py -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe manage.py migrate
-.\.venv\Scripts\python.exe manage.py createsuperuser
-.\.venv\Scripts\python.exe manage.py runserver
+poetry check --lock
+poetry install --no-root
+poetry run python manage.py migrate
+poetry run python manage.py createsuperuser
+poetry run python manage.py runserver
 ```
+
+O comando de instalação utiliza as versões registradas em `poetry.lock`. Não é necessário executar `poetry update` para avaliar a entrega. `requirements.txt` permanece como alternativa para instalação com pip, com as mesmas faixas de dependências diretas do manifesto.
 
 Abra http://127.0.0.1:8000/api/ e clique em **Log in**. Entre com o superusuário criado para acessar os endpoints e os formulários da API navegável.
 
@@ -101,9 +116,10 @@ Para testar uma atualização parcial, envie `{"status": "completed"}` com `PATC
 ## Testes
 
 ```powershell
-.\.venv\Scripts\python.exe manage.py check
-.\.venv\Scripts\python.exe manage.py makemigrations --check --dry-run
-.\.venv\Scripts\python.exe manage.py test --verbosity 2
+poetry check --lock
+poetry run python manage.py check
+poetry run python manage.py makemigrations --check --dry-run
+poetry run python manage.py test --verbosity 2
 ```
 
 A suíte contém **52 testes**: 25 para serializers e 27 para ViewSets, rotas e permissões. Os testes utilizam um banco separado e verificam:
@@ -134,7 +150,11 @@ bookstore/
   settings.py
   urls.py
 manage.py
+pyproject.toml
+poetry.lock
 requirements.txt
+docs/
+  CONTINUIDADE.md
 ```
 
 ## Referências
