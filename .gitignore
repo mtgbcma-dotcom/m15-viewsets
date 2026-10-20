@@ -1,0 +1,12 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.sqlite3
+.env
+.vscode/
+.idea/
+.coverage
+htmlcov/
+.pytest_cache/
+poetry.toml
